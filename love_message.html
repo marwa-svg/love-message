@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messaggio d'Amore</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #ffccff;
+            text-align: center;
+            padding: 50px;
+        }
+        h1 {
+            color: #ff4d4d;
+        }
+        p {
+            font-size: 24px;
+        }
+        .hidden {
+            display: none;
+        }
+        .big-button {
+            font-size: 40px;
+            padding: 20px 40px;
+            margin-top: 20px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 80%;
+            height: 200px;
+        }
+        .choices button {
+            font-size: 24px;
+            padding: 10px 20px;
+            margin: 20px;
+            background-color: #ff4d4d;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .heart {
+            font-size: 100px;
+            color: #ff4d4d;
+        }
+    </style>
+</head>
+<body>
+    <h1>Per Seraj, Con Amore</h1>
+    <div id="step1">
+        <p>Mi ami?</p>
+        <button class="big-button" onclick="nextStep('step1', 'step2')">Sì</button>
+    </div>
+    <div id="step2" class="hidden">
+        <p>Lo sapevo</p>
+    </div>
+    <div id="step3" class="hidden">
+        <p>Anch'io ti amo</p>
+    </div>
+    <div id="step4" class="hidden">
+        <p>Facciamo pausa?</p>
+        <div class="choices">
+            <button onclick="pauseResponse('no')">No</button>
+            <button onclick="pauseResponse('yes')">Sì</button>
+        </div>
+    </div>
+    <div id="response" class="hidden">
+        <p id="response-text"></p>
+    </div>
+    <div id="step5" class="hidden">
+        <p class="heart">❤️</p>
+    </div>
+    <script>
+        let currentStep = 'step1';
+        let steps = ['step1', 'step2', 'step3', 'step4', 'response', 'step5'];
+
+        function nextStep(currentStep, nextStep) {
+            document.getElementById(currentStep).classList.add('hidden');
+            document.getElementById(nextStep).classList.remove('hidden');
+        }
+
+        function pauseResponse(answer) {
+            let responseText;
+            if (answer === 'no') {
+                responseText = "Vaffanculo amore";
+            } else {
+                responseText = "Tanto lo sapevo che dicevi sì";
+            }
+            document.getElementById('response-text').innerText = responseText;
+            nextStep('step4', 'response');
+            currentStep = 'response';
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                let currentIndex = steps.indexOf(currentStep);
+                if (currentIndex !== -1 && currentIndex < steps.length - 1) {
+                    let nextIndex = currentIndex + 1;
+                    nextStep(currentStep, steps[nextIndex]);
+                    currentStep = steps[nextIndex];
+                }
+            }
+        });
+    </script>
+</body>
+</html>
